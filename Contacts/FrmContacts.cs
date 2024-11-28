@@ -373,5 +373,37 @@ namespace Contacts
         {
             ChangeTypeContact();
         }
+
+        /// <summary>
+        /// Dessinee chaque ligne de la listbox dans la couleur voulue
+        /// pour distinguer les particuliers des professionnels
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lstContact_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            // récupérer la ligne en cours de dessin
+            string ligne = lstContact.Items[e.Index].ToString();
+            // récupérer le contact correspondant
+            Contact leContact = lesContacts[e.Index];
+            // Dessiner l'arrière-plan de la ligne
+            e.DrawBackground();
+            // Définir la couleur du texte (particulier ou professionnel)
+            Color uneCouleur;
+            if (leContact is Particulier)
+            {
+                uneCouleur = rdbParticulier.ForeColor;
+            }
+            else
+            {
+                uneCouleur = rdbProfessionnel.ForeColor;
+            }
+            // fixer la couleur du pinceau
+            Brush myBrush = new SolidBrush(uneCouleur);
+            // écrire la ligne avec les caractéristiques graphiques voulues
+            e.Graphics.DrawString(ligne, e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
+            // Si la listbox a le focus, dessiner le rectangle du focus
+            e.DrawFocusRectangle();
+        }
     }
 }

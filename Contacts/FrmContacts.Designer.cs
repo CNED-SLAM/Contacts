@@ -31,6 +31,8 @@
             this.lblChoixPhoto = new System.Windows.Forms.Label();
             this.lstContact = new System.Windows.Forms.ListBox();
             this.grbAjout = new System.Windows.Forms.GroupBox();
+            this.rdbProfessionnel = new System.Windows.Forms.RadioButton();
+            this.rdbParticulier = new System.Windows.Forms.RadioButton();
             this.btnAnnuler = new System.Windows.Forms.Button();
             this.btnAjouter = new System.Windows.Forms.Button();
             this.txtTel = new System.Windows.Forms.TextBox();
@@ -44,8 +46,6 @@
             this.btnSuppr = new System.Windows.Forms.Button();
             this.btnModif = new System.Windows.Forms.Button();
             this.imgPhoto = new System.Windows.Forms.PictureBox();
-            this.rdbProfessionnel = new System.Windows.Forms.RadioButton();
-            this.rdbParticulier = new System.Windows.Forms.RadioButton();
             this.grbAjout.SuspendLayout();
             this.grbContacts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPhoto)).BeginInit();
@@ -66,12 +66,14 @@
             // 
             // lstContact
             // 
+            this.lstContact.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstContact.FormattingEnabled = true;
             this.lstContact.HorizontalScrollbar = true;
             this.lstContact.Location = new System.Drawing.Point(6, 19);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(318, 342);
             this.lstContact.TabIndex = 9;
+            this.lstContact.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstContact_DrawItem);
             this.lstContact.SelectedIndexChanged += new System.EventHandler(this.LstContact_SelectedIndexChanged);
             // 
             // grbAjout
@@ -92,6 +94,32 @@
             this.grbAjout.TabIndex = 8;
             this.grbAjout.TabStop = false;
             this.grbAjout.Text = "ajout contact";
+            // 
+            // rdbProfessionnel
+            // 
+            this.rdbProfessionnel.AutoSize = true;
+            this.rdbProfessionnel.ForeColor = System.Drawing.Color.Green;
+            this.rdbProfessionnel.Location = new System.Drawing.Point(80, 15);
+            this.rdbProfessionnel.Name = "rdbProfessionnel";
+            this.rdbProfessionnel.Size = new System.Drawing.Size(87, 17);
+            this.rdbProfessionnel.TabIndex = 19;
+            this.rdbProfessionnel.TabStop = true;
+            this.rdbProfessionnel.Text = "professionnel";
+            this.rdbProfessionnel.UseVisualStyleBackColor = true;
+            this.rdbProfessionnel.CheckedChanged += new System.EventHandler(this.rdbProfessionnel_CheckedChanged);
+            // 
+            // rdbParticulier
+            // 
+            this.rdbParticulier.AutoSize = true;
+            this.rdbParticulier.ForeColor = System.Drawing.Color.Purple;
+            this.rdbParticulier.Location = new System.Drawing.Point(7, 15);
+            this.rdbParticulier.Name = "rdbParticulier";
+            this.rdbParticulier.Size = new System.Drawing.Size(70, 17);
+            this.rdbParticulier.TabIndex = 18;
+            this.rdbParticulier.TabStop = true;
+            this.rdbParticulier.Text = "particulier";
+            this.rdbParticulier.UseVisualStyleBackColor = true;
+            this.rdbParticulier.CheckedChanged += new System.EventHandler(this.rdbParticulier_CheckedChanged);
             // 
             // btnAnnuler
             // 
@@ -214,32 +242,6 @@
             this.imgPhoto.TabIndex = 13;
             this.imgPhoto.TabStop = false;
             this.imgPhoto.Click += new System.EventHandler(this.ImgPhoto_Click);
-            // 
-            // rdbProfessionnel
-            // 
-            this.rdbProfessionnel.AutoSize = true;
-            this.rdbProfessionnel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.rdbProfessionnel.Location = new System.Drawing.Point(80, 15);
-            this.rdbProfessionnel.Name = "rdbProfessionnel";
-            this.rdbProfessionnel.Size = new System.Drawing.Size(87, 17);
-            this.rdbProfessionnel.TabIndex = 19;
-            this.rdbProfessionnel.TabStop = true;
-            this.rdbProfessionnel.Text = "professionnel";
-            this.rdbProfessionnel.UseVisualStyleBackColor = true;
-            this.rdbProfessionnel.CheckedChanged += new System.EventHandler(this.rdbProfessionnel_CheckedChanged);
-            // 
-            // rdbParticulier
-            // 
-            this.rdbParticulier.AutoSize = true;
-            this.rdbParticulier.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.rdbParticulier.Location = new System.Drawing.Point(7, 15);
-            this.rdbParticulier.Name = "rdbParticulier";
-            this.rdbParticulier.Size = new System.Drawing.Size(70, 17);
-            this.rdbParticulier.TabIndex = 18;
-            this.rdbParticulier.TabStop = true;
-            this.rdbParticulier.Text = "particulier";
-            this.rdbParticulier.UseVisualStyleBackColor = true;
-            this.rdbParticulier.CheckedChanged += new System.EventHandler(this.rdbParticulier_CheckedChanged);
             // 
             // frmContacts
             // 
