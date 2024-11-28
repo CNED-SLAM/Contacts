@@ -33,6 +33,7 @@ namespace Contacts
             // Gérer les accès aux objets graphiques
             grbAjout.Enabled = true;
             grbContacts.Enabled = false;
+            grbRecherche.Enabled = false;
             imgPhoto.Enabled = true;
             btnNouveauContact.Enabled = false;
             lblChoixPhoto.Visible = true;
@@ -40,6 +41,8 @@ namespace Contacts
             lstContact.SelectedIndex = -1;
             // affiche la photo standard
             AffichePhotoStandard();
+            // vider zone de recherche
+            ViderZoneRecherche();
             // se positionner sur le nom
             txtNom.Focus();
         }
@@ -52,6 +55,7 @@ namespace Contacts
             // Gérer les accès aux objets graphiques
             grbAjout.Enabled = false;
             grbContacts.Enabled = true;
+            grbRecherche.Enabled = true;
             imgPhoto.Enabled = false;
             btnNouveauContact.Enabled = true;
             lblChoixPhoto.Visible = false;
@@ -63,6 +67,16 @@ namespace Contacts
             txtTel.Text = "";
             // se positoinner sur la liste
             lstContact.Focus();
+        }
+
+        /// <summary>
+        /// Vider les 3 zones de recherche
+        /// </summary>
+        private void ViderZoneRecherche()
+        {
+            txtRechercheNom.Text = "";
+            txtRecherchePrenom.Text = "";
+            txtRechercheTel.Text = "";
         }
 
         /// <summary>
@@ -153,6 +167,66 @@ namespace Contacts
         }
 
         /// <summary>
+        /// Rechercher un contact par son nom
+        /// </summary>
+        /// <param name="nom">valeur à chercher</param>
+        /// <returns>vrai si trouvé</returns>
+        private bool RechercheNom(String nom)
+        {
+            for (int k = 0; k < lstContact.Items.Count; k++)
+            {
+                Contact contact = lesContacts[k];
+                if (contact.getNom().ToLower().Contains(nom.ToLower()))
+                {
+                    lstContact.SelectedIndex = k;
+                    return true;
+                }
+            }
+            lstContact.SelectedIndex = -1;
+            return false;
+        }
+
+        /// <summary>
+        /// Rechercher un contact par son prénom
+        /// </summary>
+        /// <param name="prenom">valeur à chercher</param>
+        /// <returns>vrai si trouvé</returns>
+        private bool RecherchePrenom(String prenom)
+        {
+            for (int k = 0; k < lstContact.Items.Count; k++)
+            {
+                Contact contact = lesContacts[k];
+                if (contact is Particulier && ((Particulier)contact).getPrenom().ToLower().Contains(prenom.ToLower()))
+                {
+                    lstContact.SelectedIndex = k;
+                    return true;
+                }
+            }
+            lstContact.SelectedIndex = -1;
+            return false;
+        }
+
+        /// <summary>
+        /// Rechercher un contact par son tel
+        /// </summary>
+        /// <param name="tel">valeur à chercher</param>
+        /// <returns>vrai si trouvé</returns>
+        private bool RechercheTel(String tel)
+        {
+            for (int k = 0; k < lstContact.Items.Count; k++)
+            {
+                Contact contact = lesContacts[k];
+                if (contact.getTel().ToLower().Contains(tel.ToLower()))
+                {
+                    lstContact.SelectedIndex = k;
+                    return true;
+                }
+            }
+            lstContact.SelectedIndex = -1;
+            return false;
+        }
+
+        /// <summary>
         /// Evénement Click sur le bouton bntSuppr
         /// Supprimer le contact sélectionné
         /// </summary>
@@ -168,6 +242,8 @@ namespace Contacts
                 {
                     // supprimer le contact sélectionné
                     SupprContact(lstContact.SelectedIndex);
+                    // vider zone de recherche
+                    ViderZoneRecherche();
                 }
             }
         }
@@ -404,6 +480,71 @@ namespace Contacts
             e.Graphics.DrawString(ligne, e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
             // Si la listbox a le focus, dessiner le rectangle du focus
             e.DrawFocusRectangle();
+        }
+
+        /// <summary>
+        /// Evénement Click sur la liste lstContact
+        /// vider la zone de recherche
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void lstContact_Click(object sender, EventArgs e)
+        {
+            ViderZoneRecherche();
+        }
+
+        /// <summary>
+        /// Evénement TextChanged sur la zone de recherche txtRechercheNom
+        /// vider les autres zones de recherche et chercher une ligne contenant les caractères saisis
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtRechercheNom_TextChanged(object sender, EventArgs e)
+        {
+            if (txtRechercheNom.Text != "")
+            {
+                // vider les autres zones de recherche
+                txtRechercheTel.Text = "";
+                txtRecherchePrenom.Text = "";
+                // lancer la recherche
+                RechercheNom(txtRechercheNom.Text);
+            }
+        }
+
+        /// <summary>
+        /// Evénement TextChanged sur la zone de recherche txtRecherchePrenom
+        /// vider les autres zones de recherche et chercher une ligne contenant les caractères saisis
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtRecherchePrenom_TextChanged(object sender, EventArgs e)
+        {
+            if (txtRecherchePrenom.Text != "")
+            {
+                // vider les autres zones de recherche
+                txtRechercheNom.Text = "";
+                txtRechercheTel.Text = "";
+                // lancer la recherche
+                RecherchePrenom(txtRecherchePrenom.Text);
+            }
+        }
+
+        /// <summary>
+        /// Evénement TextChanged sur la zone de recherche txtRechercheTel
+        /// vider les autres zones de recherche et chercher une ligne contenant les caractères saisis
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtRechercheTel_TextChanged(object sender, EventArgs e)
+        {
+            if (txtRechercheTel.Text != "")
+            {
+                // vider les autres zones de recherche
+                txtRechercheNom.Text = "";
+                txtRecherchePrenom.Text = "";
+                // lancer la recherche
+                RechercheTel(txtRechercheTel.Text);
+            }
         }
     }
 }
