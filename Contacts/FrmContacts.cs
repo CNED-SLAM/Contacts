@@ -12,9 +12,13 @@ namespace Contacts
     /// </summary>
     public partial class frmContacts : Form
     {
-        // liste des contacts
+        /// <summary>
+        /// Liste des contacts
+        /// </summary>
         private List<Contact> lesContacts = new List<Contact>();
-        // nom du fichier de sérialisation
+        /// <summary>
+        /// nom du fichier de sérialisation
+        /// </summary>
         private string fichier = "ficcontact";
 
         /// <summary>
