@@ -9,7 +9,9 @@ namespace Contacts
     /// mémorise les informations du contact
     /// </summary>
     [SerializableAttribute]
+#pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
     public abstract class Contact : IComparable
+#pragma warning restore S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
     //    public class Contact
     {
         /// <summary>
@@ -23,7 +25,7 @@ namespace Contacts
         /// <summary>
         /// photo du contact
         /// </summary>
-        private Image photo;
+        private readonly Image photo;
 
         /// <summary>
         /// Constructeur
@@ -31,7 +33,7 @@ namespace Contacts
         /// <param name="nom">nom</param>
         /// <param name="tel">tel</param>
         /// <param name="photo">photo</param>
-        public Contact(string nom, string tel, Image photo)
+        protected Contact(string nom, string tel, Image photo)
         {
             this.nom = nom;
             this.tel = tel;
@@ -42,7 +44,7 @@ namespace Contacts
         /// getter sur nom
         /// </summary>
         /// <returns>nom</returns>
-        public string getNom()
+        public string GetNom()
         {
             return this.nom;
         }
@@ -51,7 +53,7 @@ namespace Contacts
         /// getter sur tel
         /// </summary>
         /// <returns>tel</returns>
-        public string getTel()
+        public string GetTel()
         {
             return this.tel;
         }
@@ -60,7 +62,7 @@ namespace Contacts
         /// getter sur photo
         /// </summary>
         /// <returns>photo</returns>
-        public Image getPhoto()
+        public Image GetPhoto()
         {
             return this.photo;
         }
@@ -72,7 +74,7 @@ namespace Contacts
         /// <returns>comparaison sur le nom</returns>
         public int CompareTo(object obj)
         {
-            return nom.CompareTo(((Contact)obj).getNom());
+            return nom.CompareTo(((Contact)obj).GetNom());
         }
     }
 
@@ -82,7 +84,7 @@ namespace Contacts
     [SerializableAttribute]
     public class Particulier : Contact
     {
-        private string prenom;
+        private readonly string prenom;
 
         /// <summary>
         /// Constructeur
@@ -100,7 +102,7 @@ namespace Contacts
         /// getter sur prenom
         /// </summary>
         /// <returns>prenom</returns>
-        public string getPrenom()
+        public string GetPrenom()
         {
             return this.prenom;
         }

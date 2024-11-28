@@ -81,8 +81,8 @@
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(318, 446);
             this.lstContact.TabIndex = 9;
-            this.lstContact.Click += new System.EventHandler(this.lstContact_Click);
-            this.lstContact.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lstContact_DrawItem);
+            this.lstContact.Click += new System.EventHandler(this.LstContact_Click);
+            this.lstContact.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LstContact_DrawItem);
             this.lstContact.SelectedIndexChanged += new System.EventHandler(this.LstContact_SelectedIndexChanged);
             // 
             // grbAjout
@@ -115,7 +115,7 @@
             this.rdbProfessionnel.TabStop = true;
             this.rdbProfessionnel.Text = "professionnel";
             this.rdbProfessionnel.UseVisualStyleBackColor = true;
-            this.rdbProfessionnel.CheckedChanged += new System.EventHandler(this.rdbProfessionnel_CheckedChanged);
+            this.rdbProfessionnel.CheckedChanged += new System.EventHandler(this.RdbProfessionnel_CheckedChanged);
             // 
             // rdbParticulier
             // 
@@ -128,7 +128,7 @@
             this.rdbParticulier.TabStop = true;
             this.rdbParticulier.Text = "particulier";
             this.rdbParticulier.UseVisualStyleBackColor = true;
-            this.rdbParticulier.CheckedChanged += new System.EventHandler(this.rdbParticulier_CheckedChanged);
+            this.rdbParticulier.CheckedChanged += new System.EventHandler(this.RdbParticulier_CheckedChanged);
             // 
             // btnAnnuler
             // 
@@ -206,7 +206,7 @@
             this.btnNouveauContact.TabIndex = 10;
             this.btnNouveauContact.Text = "nouveau contact";
             this.btnNouveauContact.UseVisualStyleBackColor = true;
-            this.btnNouveauContact.Click += new System.EventHandler(this.btnNouveauContact_Click);
+            this.btnNouveauContact.Click += new System.EventHandler(this.BtnNouveauContact_Click);
             // 
             // grbContacts
             // 
@@ -273,7 +273,7 @@
             this.txtRecherchePrenom.Name = "txtRecherchePrenom";
             this.txtRecherchePrenom.Size = new System.Drawing.Size(106, 20);
             this.txtRecherchePrenom.TabIndex = 13;
-            this.txtRecherchePrenom.TextChanged += new System.EventHandler(this.txtRecherchePrenom_TextChanged);
+            this.txtRecherchePrenom.TextChanged += new System.EventHandler(this.TxtRecherchePrenom_TextChanged);
             // 
             // label5
             // 
@@ -290,7 +290,7 @@
             this.txtRechercheTel.Name = "txtRechercheTel";
             this.txtRechercheTel.Size = new System.Drawing.Size(106, 20);
             this.txtRechercheTel.TabIndex = 11;
-            this.txtRechercheTel.TextChanged += new System.EventHandler(this.txtRechercheTel_TextChanged);
+            this.txtRechercheTel.TextChanged += new System.EventHandler(this.TxtRechercheTel_TextChanged);
             // 
             // label4
             // 
@@ -316,7 +316,7 @@
             this.txtRechercheNom.Name = "txtRechercheNom";
             this.txtRechercheNom.Size = new System.Drawing.Size(106, 20);
             this.txtRechercheNom.TabIndex = 8;
-            this.txtRechercheNom.TextChanged += new System.EventHandler(this.txtRechercheNom_TextChanged);
+            this.txtRechercheNom.TextChanged += new System.EventHandler(this.TxtRechercheNom_TextChanged);
             // 
             // frmContacts
             // 

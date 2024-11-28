@@ -19,7 +19,7 @@ namespace Contacts
         /// <summary>
         /// nom du fichier de sérialisation
         /// </summary>
-        private string fichier = "ficcontact";
+        private readonly string fichier = "ficcontact";
 
         /// <summary>
         /// Constructeur
@@ -174,60 +174,66 @@ namespace Contacts
         /// Rechercher un contact par son nom
         /// </summary>
         /// <param name="nom">valeur à chercher</param>
-        /// <returns>vrai si trouvé</returns>
-        private bool RechercheNom(String nom)
+        private void RechercheNom(String nom)
         {
-            for (int k = 0; k < lstContact.Items.Count; k++)
+            bool trouve = false;
+            int k = 0;
+            while (k < lstContact.Items.Count && !trouve)
             {
                 Contact contact = lesContacts[k];
-                if (contact.getNom().ToLower().Contains(nom.ToLower()))
+                if (contact.GetNom().ToLower().Contains(nom.ToLower()))
                 {
                     lstContact.SelectedIndex = k;
-                    return true;
+                    trouve = true;
                 }
+                k++;
             }
-            lstContact.SelectedIndex = -1;
-            return false;
+            if (!trouve)
+                lstContact.SelectedIndex = -1;
         }
 
         /// <summary>
         /// Rechercher un contact par son prénom
         /// </summary>
         /// <param name="prenom">valeur à chercher</param>
-        /// <returns>vrai si trouvé</returns>
-        private bool RecherchePrenom(String prenom)
+        private void RecherchePrenom(String prenom)
         {
-            for (int k = 0; k < lstContact.Items.Count; k++)
+            bool trouve = false;
+            int k = 0;
+            while (k < lstContact.Items.Count && !trouve)
             {
                 Contact contact = lesContacts[k];
-                if (contact is Particulier && ((Particulier)contact).getPrenom().ToLower().Contains(prenom.ToLower()))
+                if (contact is Particulier leParticulier && leParticulier.GetPrenom().ToLower().Contains(prenom.ToLower()))
                 {
                     lstContact.SelectedIndex = k;
-                    return true;
+                    trouve = true;
                 }
+                k++;
             }
-            lstContact.SelectedIndex = -1;
-            return false;
+            if (!trouve)
+                lstContact.SelectedIndex = -1;
         }
 
         /// <summary>
         /// Rechercher un contact par son tel
         /// </summary>
         /// <param name="tel">valeur à chercher</param>
-        /// <returns>vrai si trouvé</returns>
-        private bool RechercheTel(String tel)
+        private void RechercheTel(String tel)
         {
-            for (int k = 0; k < lstContact.Items.Count; k++)
+            bool trouve = false;
+            int k = 0;
+            while (k < lstContact.Items.Count && !trouve)
             {
                 Contact contact = lesContacts[k];
-                if (contact.getTel().ToLower().Contains(tel.ToLower()))
+                if (contact.GetTel().ToLower().Contains(tel.ToLower()))
                 {
                     lstContact.SelectedIndex = k;
-                    return true;
+                    trouve = true;
                 }
+                k++;
             }
-            lstContact.SelectedIndex = -1;
-            return false;
+            if (!trouve)
+                lstContact.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -238,17 +244,14 @@ namespace Contacts
         /// <param name="e"></param>
         private void BtnSuppr_Click(object sender, EventArgs e)
         {
-            //  contrôler qu'une ligne est bien sélectionnée
-            if (lstContact.SelectedIndex != -1)
+            //  contrôler qu'une ligne est bien sélectionnée et demander une confirmation de suppression
+            if (lstContact.SelectedIndex != -1 &&
+                MessageBox.Show("Supprimer le contact ?", "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                // demander une confirmation de suppression
-                if (MessageBox.Show("Supprimer le contact ?", "Confirmation", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    // supprimer le contact sélectionné
-                    SupprContact(lstContact.SelectedIndex);
-                    // vider zone de recherche
-                    ViderZoneRecherche();
-                }
+                // supprimer le contact sélectionné
+                SupprContact(lstContact.SelectedIndex);
+                // vider zone de recherche
+                ViderZoneRecherche();
             }
         }
 
@@ -265,7 +268,7 @@ namespace Contacts
             {
                 Contact leContact = lesContacts[lstContact.SelectedIndex];
                 // afficher l'image
-                imgPhoto.Image = leContact.getPhoto();
+                imgPhoto.Image = leContact.GetPhoto();
             }
             else
             {
@@ -327,21 +330,21 @@ namespace Contacts
                 // supprimer le contact
                 SupprContact(index);
                 // remplir les zones d'ajout avec les informations du contact
-                txtNom.Text = leContact.getNom();
-                if (leContact is Particulier)
+                txtNom.Text = leContact.GetNom();
+                if (leContact is Particulier leParticulier)
                 {
-                    txtPrenom.Text = ((Particulier)leContact).getPrenom();
+                    txtPrenom.Text = leParticulier.GetPrenom();
                     rdbParticulier.Checked = true;
                 }
                 else
                 {
                     rdbProfessionnel.Checked = true;
                 }
-                txtTel.Text = leContact.getTel();
+                txtTel.Text = leContact.GetTel();
                 // gérer le début de l'ajout au niveau des objets graphiques
                 DebutAjout();
                 // mettre la photo du contact
-                imgPhoto.Image = leContact.getPhoto();
+                imgPhoto.Image = leContact.GetPhoto();
             }
         }
 
@@ -429,7 +432,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnNouveauContact_Click(object sender, EventArgs e)
+        private void BtnNouveauContact_Click(object sender, EventArgs e)
         {
             DebutAjout();
         }
@@ -439,7 +442,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void rdbParticulier_CheckedChanged(object sender, EventArgs e)
+        private void RdbParticulier_CheckedChanged(object sender, EventArgs e)
         {
             ChangeTypeContact();
         }
@@ -449,7 +452,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void rdbProfessionnel_CheckedChanged(object sender, EventArgs e)
+        private void RdbProfessionnel_CheckedChanged(object sender, EventArgs e)
         {
             ChangeTypeContact();
         }
@@ -460,7 +463,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lstContact_DrawItem(object sender, DrawItemEventArgs e)
+        private void LstContact_DrawItem(object sender, DrawItemEventArgs e)
         {
             // récupérer la ligne en cours de dessin
             string ligne = lstContact.Items[e.Index].ToString();
@@ -492,7 +495,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lstContact_Click(object sender, EventArgs e)
+        private void LstContact_Click(object sender, EventArgs e)
         {
             ViderZoneRecherche();
         }
@@ -503,7 +506,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtRechercheNom_TextChanged(object sender, EventArgs e)
+        private void TxtRechercheNom_TextChanged(object sender, EventArgs e)
         {
             if (txtRechercheNom.Text != "")
             {
@@ -521,7 +524,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtRecherchePrenom_TextChanged(object sender, EventArgs e)
+        private void TxtRecherchePrenom_TextChanged(object sender, EventArgs e)
         {
             if (txtRecherchePrenom.Text != "")
             {
@@ -539,7 +542,7 @@ namespace Contacts
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtRechercheTel_TextChanged(object sender, EventArgs e)
+        private void TxtRechercheTel_TextChanged(object sender, EventArgs e)
         {
             if (txtRechercheTel.Text != "")
             {
