@@ -41,7 +41,7 @@ namespace Contacts
             // affiche la photo standard
             AffichePhotoStandard();
             // se positionner sur le nom
-            txtNom.Focus();        
+            txtNom.Focus();
         }
 
         /// <summary>
@@ -55,6 +55,8 @@ namespace Contacts
             imgPhoto.Enabled = false;
             btnNouveauContact.Enabled = true;
             lblChoixPhoto.Visible = false;
+            // sélectionner bouton radio Particulier par défaut
+            rdbParticulier.Checked = true;
             // vider les zones de saisie
             txtNom.Text = "";
             txtPrenom.Text = "";
@@ -108,6 +110,17 @@ namespace Contacts
             Serialise.Sauve(fichier, lesContacts);
             // se positionner sur la ligne demandée en paramètre ou la 1e ligne si la liste n'est pas vide
             PositionDansListe(ligne);
+        }
+
+        /// <summary>
+        /// Au changement de choix du type de contact
+        /// afficher ou non la zone du prénom 
+        /// </summary>
+        private void ChangeTypeContact()
+        {
+            // afficher le prénom si Pariculier, ou non si Professionnel
+            lblPrenom.Visible = rdbParticulier.Checked;
+            txtPrenom.Visible = rdbParticulier.Checked;
         }
 
         /// <summary>
@@ -190,10 +203,20 @@ namespace Contacts
         private void BtnAjouter_Click(object sender, EventArgs e)
         {
             // vérifier que le nom, prénom et tel ne sont pas vides 
-            if (!txtNom.Text.Equals("") && !txtTel.Text.Equals("") && !txtPrenom.Text.Equals(""))
+            if (!txtNom.Text.Equals("") && !txtTel.Text.Equals("") &&
+                ((rdbParticulier.Checked && !txtPrenom.Text.Equals("")) || rdbProfessionnel.Checked))
             {
-                // créer le contact et l'ajouter dans la collection
-                Contact nouveauContact = new Contact(txtNom.Text, txtPrenom.Text, txtTel.Text, imgPhoto.Image);
+                // créer le contact
+                Contact nouveauContact;
+                if (rdbParticulier.Checked)
+                {
+                    nouveauContact = new Particulier(txtNom.Text, txtPrenom.Text, txtTel.Text, imgPhoto.Image);
+                }
+                else
+                {
+                    nouveauContact = new Professionnel(txtNom.Text, txtTel.Text, imgPhoto.Image);
+                }
+                // ajouter le contact dans la collection
                 lesContacts.Add(nouveauContact);
                 // mettre à jour de la ListBox
                 MajListBox(nouveauContact.ToString());
@@ -225,7 +248,15 @@ namespace Contacts
                 SupprContact(index);
                 // remplir les zones d'ajout avec les informations du contact
                 txtNom.Text = leContact.getNom();
-                txtPrenom.Text = leContact.getPrenom();
+                if (leContact is Particulier)
+                {
+                    txtPrenom.Text = ((Particulier)leContact).getPrenom();
+                    rdbParticulier.Checked = true;
+                }
+                else
+                {
+                    rdbProfessionnel.Checked = true;
+                }
                 txtTel.Text = leContact.getTel();
                 // gérer le début de l'ajout au niveau des objets graphiques
                 DebutAjout();
@@ -321,6 +352,26 @@ namespace Contacts
         private void btnNouveauContact_Click(object sender, EventArgs e)
         {
             DebutAjout();
+        }
+
+        /// <summary>
+        /// Evénement Click sur bouton radio rdbParticulier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdbParticulier_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeTypeContact();
+        }
+
+        /// <summary>
+        /// Evénement Click sur bouton radio rdbProfessionnel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rdbProfessionnel_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangeTypeContact();
         }
     }
 }
